@@ -1,0 +1,12 @@
+apiVersion: container.vnv.wrstudio.cloud/v1alpha1
+kind: ContainerJob
+metadata:
+  name: containerjob-sample
+  namespace: default
+spec:
+  id: "fae0001"
+  image:
+    name: luksa/batch-job
+    version: latest
+  parameters:
+    args: "sleep 300"

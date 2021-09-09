@@ -1,0 +1,86 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.6.1
+  creationTimestamp: null
+  name: containerjobs.container.vnv.wrstudio.cloud
+spec:
+  group: container.vnv.wrstudio.cloud
+  names:
+    kind: ContainerJob
+    listKind: ContainerJobList
+    plural: containerjobs
+    singular: containerjob
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ContainerJob is the Schema for the containerjobs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ContainerJobSpec defines the desired state of ContainerJob
+            properties:
+              id:
+                description: How many instances should we run for a singe image name
+                type: string
+              image:
+                description: Information of the image being created
+                properties:
+                  name:
+                    description: Image name to be spawn as a job within the cluster
+                    type: string
+                  version:
+                    description: Version of the desired image
+                    type: string
+                type: object
+              parameters:
+                description: Information about additional commands to be run within
+                  the container
+                properties:
+                  args:
+                    description: This field will fill the args section within the
+                      pod spec. Replace the CMD dockerfile directive
+                    type: string
+                  command:
+                    description: This field will fill the command section within the
+                      pod spec. Replace the ENTRYPOINT dockerfile directive
+                    type: string
+                type: object
+            type: object
+          status:
+            description: ContainerJobStatus defines the observed state of ContainerJob
+            properties:
+              nodes:
+                items:
+                  type: string
+                type: array
+            required:
+            - nodes
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
