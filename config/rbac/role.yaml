@@ -1,0 +1,40 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - container.vnv.wrstudio.cloud
+  resources:
+  - containerjobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - container.vnv.wrstudio.cloud
+  resources:
+  - containerjobs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - container.vnv.wrstudio.cloud
+  resources:
+  - containerjobs/status
+  verbs:
+  - get
+  - patch
+  - update
