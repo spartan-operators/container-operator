@@ -8,14 +8,14 @@ configMapGenerator:
 - files:
   - controller_manager_config.yaml
   name: manager-config
-secretGenerator:
-- files:
-  - .dockerconfigjson
-  name: regcred
-  type: kubernetes.io/dockerconfigjson
+#secretGenerator:
+#- files:
+#  - .dockerconfigjson
+#  name: regcred
+#  type: kubernetes.io/dockerconfigjson
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-  newName: docker.io/dockvalkyrie/container-operator
+  newName: 945377166858.dkr.ecr.us-east-1.amazonaws.com/container-operator
   newTag: v0.0.2
