@@ -115,6 +115,7 @@ func containerJobDescriptor(containerJob *containerv1alpha1.ContainerJob) *batch
 	containerName := fmt.Sprintf("%s-container-%s", containerJob.Name, containerJob.Spec.JobId)
 	containerImage := fmt.Sprintf("%s:%s", containerJob.Spec.ImageSpec.Name, containerJob.Spec.ImageSpec.Version)
 	containerArgs := appendArgs(containerJob)
+	containerParams := appendCommands(containerJob)
 
 	metadata := &metav1.ObjectMeta{
 		Name:        jobName,
@@ -128,7 +129,7 @@ func containerJobDescriptor(containerJob *containerv1alpha1.ContainerJob) *batch
 			{
 				Name:    containerName,
 				Image:   containerImage,
-				Command: []string{},
+				Command: containerParams,
 				Args:    containerArgs,
 			},
 		},
@@ -151,11 +152,18 @@ func containerJobDescriptor(containerJob *containerv1alpha1.ContainerJob) *batch
 }
 
 func appendArgs(containerJob *containerv1alpha1.ContainerJob) []string {
-	specArgs := containerJob.Spec.ParameterSpec.Args
+	return appendContainerParameters(containerJob.Spec.ParameterSpec.Args)
+}
+
+func appendCommands(containerJob *containerv1alpha1.ContainerJob) []string {
+	return appendContainerParameters(containerJob.Spec.ParameterSpec.Command)
+}
+
+func appendContainerParameters(params string) []string {
 	args := make([]string, 0)
 
-	if len(specArgs) > 0 {
-		args = append(args, specArgs)
+	if len(params) > 0 {
+		args = append(args, params)
 	}
 
 	return args
